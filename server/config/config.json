@@ -1,0 +1,32 @@
+{
+  "development": {
+    "username": "root",
+    "password": "root",
+    "database": "gpec-digitalfactory_altran",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "env": {
+      "SECRET_TOKEN": "gpecdigitalfactoryaltran"
+    }
+  },
+  "test": {
+    "username": "root",
+    "password": "root",
+    "database": "gpec-digitalfactory_altran_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "env": {
+      "SECRET_TOKEN": "gpecdigitalfactoryaltran"
+    }
+  },
+  "production": {
+    "username": "root",
+    "password": "root",
+    "database": "gpec-digitalfactory_altran_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "env": {
+      "SECRET_TOKEN": "gpecdigitalfactoryaltran"
+    }
+  }
+}

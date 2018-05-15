@@ -1,0 +1,16 @@
+@import '../variables';
+.nav-logo {
+    height: 10vh;
+    background-image: url("/assets/images/headband_cjd.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+}
+
+nav {
+    background-color: $cjd_darkblue;
+}
+
+.navbar {
+    border-radius: 0 !important;
+}

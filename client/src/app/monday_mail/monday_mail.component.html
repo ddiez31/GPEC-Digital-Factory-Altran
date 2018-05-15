@@ -1,0 +1,139 @@
+<app-loading [condition]="isLoading"></app-loading>
+
+<app-toast [message]="toast.message"></app-toast>
+
+<div class="card" *ngIf="!isLoading">
+  <h5 class="card-header">Liste des informations à envoyer ({{monday_mails.length}})</h5>
+  <div class="card-block">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-default">
+        <tr>
+          <th>Image</th>
+          <th>Nom</th>
+          <th>Date</th>
+          <th>Adresse</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="monday_mails.length === 0">
+        <tr>
+          <td colspan="12">Il n'y a aucune information enregistrée. Veuillez créer une nouvelle donnée.</td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="!isEditing">
+        <tr *ngFor="let monday_mail of monday_mails">
+          <!-- <i class="fa fa-user-circle-o fa-3x"></i> -->
+          <td id="image">{{monday_mail.image}}<i class="fa fa-user-circle-o fa-3x"></i></td>
+          <td>{{monday_mail.name}}</td>
+          <td>{{monday_mail.address}}</td>
+          <td>{{monday_mail.description}}</td>
+          <td>{{monday_mail.date}}</td>
+          <td>
+            <button class="btn btn-sm btn-warning" (click)="enableEditing(monday_mail)" title="Modifier"><i class="fa fa-pencil"></i></button>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-danger" (click)="deleteMondayMail(monday_mail)" title="Supprimer"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="isEditing">
+        <tr>
+          <td colspan="4">
+            <form class="form-inline" #form="ngForm" (ngSubmit)="editMondayMail(monday_mail)" style="display:inline">
+              <div class="form-group">
+                <input class="form-control" type="file" name="image" [(ngModel)]="monday_mail.image" required>
+              </div>
+              <div class="form-group">
+                <input class="form-control" type="text" name="name" [(ngModel)]="monday_mail.name" placeholder="Nom" required>
+              </div>
+              <div class="form-group">
+                <input class="form-control" type="text" name="address" [(ngModel)]="monday_mail.address" placeholder="Adresse" required>
+              </div>
+              <div class="form-group">
+                <input class="form-control" type="text" name="description" [(ngModel)]="monday_mail.description" placeholder="Description"
+                  required>
+              </div>
+              <div class="form-group">
+                <input class="form-control" type="text" name="date" [(ngModel)]="monday_mail.date" placeholder="Date" required>
+              </div>
+              <button class="btn btn-sm btn-primary" type="submit" [disabled]="!form.form.valid"><i class="fa fa-floppy-o"></i> Enregistrer</button>
+            </form>
+            <button class="btn btn-sm btn-warning" (click)="cancelEditing()"><i class="fa fa-times"></i> Annuler</button>
+          </td>
+        </tr>
+      </tbody>
+      <button class="btn btn-primary" type="submit" [disabled]="!sendMondayMailForm.valid"><i class="fa fa-share"></i> Envoyer le mail</button>
+    </table>
+  </div>
+</div>
+
+<div class="card" *ngIf="!isEditing">
+  <h5 class="card-header">Créer un mail</h5>
+  <div class="card-block">
+    <form class="form-inline" [formGroup]="addMondayMailForm" (ngSubmit)="addMondayMail()" style="text-align:center">
+      <div class="card-deck">
+        <div class="card">
+          <div class="card-body">
+            <div class="card-header">
+              <h5 class="card-title">Image</h5>
+            </div>
+            <label for="image">Image: </label>
+            <input class="form-control" type="file" name="image" formControlName="image">
+            <button type="button" class="btn btn-success" (click)="upload()"><i class="fa fa-upload"></i> Envoyer</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="card-header">
+              <h5 class="card-title">Généralités</h5>
+            </div>
+            <div class="form-group">
+              <label for="name">Nom: </label>
+              <input class="form-control" type="text" name="name" formControlName="name" required>
+            </div>
+            <div class="form-group">
+              <label for="description">Description: </label>
+              <textarea class="form-control" type="text" name="description" formControlName="description" minlength="10" maxlength="350"
+                required></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-deck">
+
+        <div class="card">
+          <div class="card-body">
+            <div class="card-header">
+              <h5 class="card-title">Lieu</h5>
+            </div>
+            <div class="form-group">
+              <label for="address">Adresse: </label>
+              <textarea class="form-control" type="text" name="address" formControlName="address" minlength="10" maxlength="100" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="region">Région CJD: </label>
+              <select class="form-control" name="region" formControlName="region" required>
+                    <option *ngFor="let region of regions">{{region.name}}</option>
+                    <option>Midi-Pyrénées</option>
+                    <option>2</option>
+                    <option>3</option>
+                </select>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="card-header">
+              <h5 class="card-title">Calendrier</h5>
+            </div>
+            <div class="form-group">
+              <label for="date">Date: </label>
+              <input class="form-control" type="date" name="date" formControlName="date" required>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary" type="submit" [disabled]="!addMondayMailForm.valid"><i class="fa fa-floppy-o"></i> Valider</button>
+    </form>
+  </div>
+</div>

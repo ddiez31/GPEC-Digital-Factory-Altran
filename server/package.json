@@ -1,0 +1,46 @@
+{
+    "name": "gpec-digitalfactory_altran",
+    "version": "0.0.0",
+    "author": "David Diez",
+    "description": "Getting Started with Node.js, Express and Postgres (using Sequelize)\"]\r (https://scotch.io/tutorials/getting-started-with-node-express-and-postgres-using-sequelize)",
+    "angular-cli": {},
+    "license": "ISC",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon app.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "express",
+        "jwt-authentication",
+        "jwt",
+        "mysql",
+        "sequelize",
+        "authentication"
+    ],
+    "dependencies": {
+        "bcrypt": "latest",
+        "body-parser": "latest",
+        "express": "latest",
+        "fs": "latest",
+        "jsonwebtoken": "latest",
+        "morgan": "latest",
+        "multer": "latest",
+        "mysql2": "latest",
+        "passport": "latest",
+        "passport-jwt": "latest",
+        "path": "latest",
+        "pg": "latest",
+        "pg-hstore": "latest",
+        "sequelize": "latest",
+        "sequelize-cli": "latest"
+    },
+    "devDependencies": {
+        "eslint": "latest",
+        "eslint-config-airbnb": "latest",
+        "eslint-plugin-import": "latest",
+        "eslint-plugin-jsx-a11y": "latest",
+        "eslint-plugin-react": "latest",
+        "nodemon": "latest"
+    }
+}

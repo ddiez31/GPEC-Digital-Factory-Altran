@@ -1,0 +1,22 @@
+<nav class="navbar navbar-dark sticky-top">
+    <div class="nav-logo"></div>
+    <div class="nav navbar-nav">
+        <a routerLink="/" class="nav-item nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+            <i class="fa fa-home"></i> Accueil
+        </a>
+        <a routerLink="/users" class="nav-item nav-link" routerLinkActive="active" *ngIf="auth.isAdmin">
+            <i class="fa fa-users"></i> Membres
+        </a>
+        <a routerLink="/events" class="nav-item nav-link" routerLinkActive="active" *ngIf="auth.isAdmin">
+            <i class="fa fa-calendar"></i> Evènements
+        </a>
+        <a routerLink="/monday_mail" class="nav-item nav-link" routerLinkActive="active" *ngIf="auth.isAdmin">
+            <i class="fa fa-envelope"></i> Mail du Lundi
+        </a>
+        <a routerLink="/logout" class="nav-item nav-link" routerLinkActive="active" *ngIf="auth.loggedIn">
+            <i class="fa fa-sign-out"></i> Logout
+        </a>
+    </div>
+</nav>
+
+<router-outlet></router-outlet>
