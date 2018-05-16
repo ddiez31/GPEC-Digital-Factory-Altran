@@ -3,7 +3,7 @@
 <app-toast [message]="toast.message"></app-toast>
 
 <!-- List of consultants -->
-<div class="card" *ngIf="!isLoading && !isEditing && !isAdding">
+<div class="card" *ngIf="!isLoading && !isEditing && !isAdding && !isViewing">
     <h5 class="card-header">Liste des consultants ({{consultants.length}}) /
         <button class="btn btn-sm btn-success" (click)="enableAdding()">
         <i class="fa fa-plus"></i> Ajouter</button>
@@ -26,6 +26,11 @@
                 <tr *ngFor="let consultant of consultants | filter : term">
                     <td>{{consultant.first_name}}</td>
                     <td>{{consultant.last_name}}</td>
+                    <td class="td-btn">
+                        <button class="btn btn-sm btn-info" (click)="enableViewing(consultant)" title="Voir">
+                        <i class="fa fa-eye"></i>
+                        </button>
+                    </td>
                     <td class="td-btn">
                         <button class="btn btn-sm btn-warning" (click)="enableEditing(consultant)" title="Modifier">
                         <i class="fa fa-edit"></i>
@@ -55,6 +60,85 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+</div>
+
+<!-- View consultant -->
+<div class="card" *ngIf="isViewing">
+    <h5 class="card-header">Détails du consultant /
+        <button class="btn btn-sm btn-warning" (click)="cancelViewing()">
+        <i class="fa fa-times"></i> Annuler</button>
+    </h5>
+    <div class="card-block">
+        <form class="form-inline" #form="ngForm" style="text-align:center">
+            <div class="card-deck">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title">Identité</h5>
+                        </div>
+                        <div class="form-group">
+                            <label for="first_name">Prénom: </label>
+                            <input class="form-control" type="text" name="first_name" [(ngModel)]="consultant.first_name" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Nom: </label>
+                            <input class="form-control" type="text" name="last_name" [(ngModel)]="consultant.last_name" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-deck">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title">Statistiques</h5>
+                        </div>
+                        <div class="form-group">
+                            <label for="skill">Compétence: </label>
+                            <input class="form-control" type="text" name="skill_name" [(ngModel)]="consultant.skill_name" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="level">Niveau: </label>
+                            <input class="form-control" type="text" name="level_name" [(ngModel)]="consultant.level_name" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-deck">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title">Diagramme</h5>
+                        </div>
+                        <div class="form-group">
+                            <img class="card-img-top" src="../../assets/images/spider0Small.png" alt="Diagramme radar"> </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-block">
+        <form class="form-inline" #form="ngForm" style="text-align:center">
+            <div class="card-deck">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title">Matching projet</h5>
+                        </div>
+                        <div class="form-group">
+                            <label for="project">Projet: </label>
+                            <select [(ngModel)]="project.project_id" class="form-control" name="project_id">
+                                <option *ngFor="let project of projects" [value]="project.id">{{project.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <img class="card-img-top" src="../../assets/images/spider0Small.png" alt="Diagramme radar">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -92,8 +176,8 @@
                         <div class="form-group">
                             <label for="skill">Compétence: </label>
                             <select [(ngModel)]="consultant.skill_id" class="form-control" name="skill_id" [ngModelOptions]="{standalone: true}" required>
-                                <option *ngFor="let skill of skills" [value]="skill.id">{{skill.name}}</option>
-                            </select>
+                                    <option *ngFor="let skill of skills" [value]="skill.id">{{skill.name}}</option>
+                                </select>
                         </div>
                         <div class="form-group">
                             <label for="level">Niveau: </label>
@@ -122,7 +206,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-header">
-                            <h5 class="card-title">Statistiques</h5>
+                            <h5 class="card-title">Identité</h5>
                         </div>
                         <div class="form-group">
                             <label for="first_name">Prénom: </label>

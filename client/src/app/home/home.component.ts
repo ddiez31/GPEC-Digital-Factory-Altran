@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
     this
       .auth
       .login(this.loginForm.value)
-      .subscribe(res => this.router.navigate(['/']), error => this.toast.setMessage('Email et/ou Mot de passe erroné(s)', 'danger'));
+      .subscribe(res => this.router.navigate(['/']), error => this.toast.setMessage('Identifiant et/ou Mot de passe erroné(s)', 'danger'));
   }
 
 }

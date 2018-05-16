@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Http} from '@angular/http';
 import {FormGroup, FormControl, Validators, FormBuilder} from '@angular/forms';
 import {ConsultantService} from '../services/consultant.service';
+import {ProjectService} from '../services/project.service';
 import {LevelService} from '../services/level.service';
 import {SkillService} from '../services/skill.service';
 
@@ -24,6 +25,8 @@ export class ConsultantsComponent implements OnInit {
 
   consultant = {};
   consultants = [];
+  project = {};
+  projects = [];
   skill = {};
   skills = [];
   level = {};
@@ -32,7 +35,7 @@ export class ConsultantsComponent implements OnInit {
   isLoading = true;
   isEditing = false;
   isAdding = false;
-  isChecked = false;
+  isViewing = false;
 
   // Form validators
   addConsultantForm : FormGroup;
@@ -44,10 +47,11 @@ export class ConsultantsComponent implements OnInit {
 
   public term: any;
 
-  constructor(private consultantService : ConsultantService, private levelService : LevelService, private skillService : SkillService, private formBuilder : FormBuilder, private http : Http, public toast : ToastComponent) {}
+  constructor(private consultantService : ConsultantService, private projectService : ProjectService, private levelService : LevelService, private skillService : SkillService, private formBuilder : FormBuilder, private http : Http, public toast : ToastComponent) {}
 
   ngOnInit() {
     this.getConsultants();
+    this.getProjects();
     this.getSkills();
     this.getLevels();
 
@@ -67,6 +71,13 @@ export class ConsultantsComponent implements OnInit {
       .consultantService
       .getConsultants()
       .subscribe(data => this.consultants = data, error => console.log(error), () => this.isLoading = false);
+  }
+
+  getProjects() {
+    this
+      .projectService
+      .getProjects()
+      .subscribe(data => this.projects = data, error => console.log(error), () => this.isLoading = false);
   }
 
   getLevels() {
@@ -112,16 +123,27 @@ export class ConsultantsComponent implements OnInit {
 
   enableAdding() {
     this.isEditing = false;
+    this.isViewing = false;
     this.isAdding = true;
   }
 
   cancelAdding() {
     this.isEditing = false;
+    this.isViewing = false;
     this.isAdding = false;
     this
       .toast
       .setMessage('Création annulée.', 'warning'); // reload the consultants to reset the adding
     this.getConsultants();
+  }
+
+  enableViewing(consultant) {
+    this.isViewing = true;
+    this.consultant = consultant;
+  }
+
+  cancelViewing() {
+    this.isViewing = false;
   }
 
   enableEditing(consultant) {

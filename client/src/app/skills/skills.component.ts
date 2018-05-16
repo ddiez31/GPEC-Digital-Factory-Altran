@@ -24,7 +24,6 @@ export class SkillsComponent implements OnInit {
   isLoading = true;
   isEditing = false;
   isAdding = false;
-  isChecked = false;
 
   // Form validators
   addSkillForm : FormGroup;
