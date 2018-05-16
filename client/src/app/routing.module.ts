@@ -1,10 +1,11 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AppComponent} from './app.component';
-import {UsersComponent} from './users/users.component';
 import {HomeComponent} from './home/home.component';
-import {MondayMailComponent} from './monday_mail/monday_mail.component';
-import {EventsComponent} from './events/events.component';
+import {ConsultantsComponent} from './consultants/consultants.component';
+import {ProjectsComponent} from './projects/projects.component';
+import {SkillsComponent} from './skills/skills.component';
+
 import {LogoutComponent} from './logout/logout.component';
 import {NotFoundComponent} from './not-found/not-found.component';
 
@@ -16,16 +17,16 @@ const routes : Routes = [
     path: '',
     component: HomeComponent
   }, {
-    path: 'users',
-    component: UsersComponent,
+    path: 'consultants',
+    component: ConsultantsComponent,
     canActivate: [AuthGuardAdmin]
   }, {
-    path: 'monday_mail',
-    component: MondayMailComponent,
+    path: 'skills',
+    component: SkillsComponent,
     canActivate: [AuthGuardAdmin]
   }, {
-    path: 'events',
-    component: EventsComponent,
+    path: 'projects',
+    component: ProjectsComponent,
     canActivate: [AuthGuardAdmin]
   }, {
     path: 'logout',

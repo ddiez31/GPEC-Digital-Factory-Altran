@@ -13,7 +13,7 @@ export class AuthService {
 
   currentUser = {
     id: '',
-    email: '',
+    surname: '',
     type_user_id: ''
   };
 
@@ -25,10 +25,10 @@ export class AuthService {
     }
   }
 
-  login(emailAndPassword) {
+  login(surnameAndPassword) {
     return this
       .userService
-      .login(emailAndPassword)
+      .login(surnameAndPassword)
       .map(res => res.json())
       .map(res => {
         localStorage.setItem('token', res.token);
@@ -44,7 +44,7 @@ export class AuthService {
     this.isAdmin = false;
     this.currentUser = {
       id: '',
-      email: '',
+      surname: '',
       type_user_id: ''
     };
     this
@@ -62,7 +62,7 @@ export class AuthService {
   setCurrentUser(user) {
     this.loggedIn = true;
     this.currentUser.id = user.id;
-    this.currentUser.email = user.email;
+    this.currentUser.surname = user.surname;
     this.currentUser.type_user_id = user.type_user_id;
     user.type_user_id === 1
       ? this.isAdmin = true

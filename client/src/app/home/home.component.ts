@@ -1,28 +1,21 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormGroup, FormControl, Validators, FormBuilder} from '@angular/forms';
-import {LowerCasePipe} from '@angular/common';
 
 import {AuthService} from '../services/auth.service';
 import {ToastComponent} from '../shared/toast/toast.component';
 
 @Component({selector: 'app-home', templateUrl: './home.component.html', styleUrls: ['./home.component.scss']})
 export class HomeComponent implements OnInit {
-  // Email input to lowercase
-  emailValue : string;
-  changeEmail(emailValue : string) {
-    this.emailValue = emailValue
-  };
-
   // Form validators
   loginForm : FormGroup;
-  email = new FormControl('', [
-    Validators.email, Validators.required, Validators.minLength(3),
+  surname = new FormControl('', [
+    Validators.required, Validators.minLength(3),
     Validators.maxLength(100)
   ]);
   password = new FormControl('', [
-    Validators.required, Validators.minLength(6),
-    Validators.maxLength(6)
+    Validators.required, Validators.minLength(3),
+    Validators.maxLength(10)
   ]);
 
   constructor(private auth : AuthService, private formBuilder : FormBuilder, private router : Router, public toast : ToastComponent) {}
@@ -35,12 +28,12 @@ export class HomeComponent implements OnInit {
     }
     this.loginForm = this
       .formBuilder
-      .group({email: this.email, password: this.password});
+      .group({surname: this.surname, password: this.password});
   }
 
-  setClassEmail() {
+  setClassSurname() {
     return {
-      'has-danger': !this.email.pristine && !this.email.valid
+      'has-danger': !this.surname.pristine && !this.surname.valid
     };
   }
   setClassPassword() {

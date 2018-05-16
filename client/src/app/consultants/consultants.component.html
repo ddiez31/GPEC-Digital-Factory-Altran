@@ -1,0 +1,152 @@
+<app-loading [condition]="isLoading"></app-loading>
+
+<app-toast [message]="toast.message"></app-toast>
+
+<!-- List of consultants -->
+<div class="card" *ngIf="!isLoading && !isEditing && !isAdding">
+    <h5 class="card-header">Liste des consultants ({{consultants.length}}) /
+        <button class="btn btn-sm btn-success" (click)="enableAdding()">
+        <i class="fa fa-plus"></i> Ajouter</button>
+        <input class="form-control mr-sm-2" type="text" [(ngModel)]="term" placeholder="Rechercher" aria-label="Rechercher">
+    </h5>
+    <div class="card-block">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-default">
+                <tr>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <!-- <th>Rôle</th> -->
+                </tr>
+            </thead>
+            <tbody *ngIf="consultants.length === 0">
+                <tr>
+                    <td colspan="12">Il n'y a aucun consultant enregistré. Veuillez créer une nouvelle fiche.</td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="!isEditing">
+                <tr *ngFor="let consultant of consultants | filter : term">
+                    <td>{{consultant.first_name}}</td>
+                    <td>{{consultant.last_name}}</td>
+                    <!-- <td>{{consultant.Type_user.type}}</td> -->
+                    <td class="td-btn">
+                        <button class="btn btn-sm btn-warning" (click)="enableEditing(consultant)" title="Modifier">
+                        <i class="fa fa-edit"></i>
+                        </button>
+                    </td>
+                    <td class="td-btn">
+                        <button class="btn btn-sm btn-danger" (click)="enableDeleting(consultant)" title="Supprimer" data-toggle="modal" data-target="#confirmDelete">
+                        <i class="fa fa-trash"></i>
+                        </button>
+                        <div class="modal fade" id="confirmDelete" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button class="close" data-dismiss="modal">
+                                        <i class="fa fa-times"></i>
+                                        </button>
+                                        <h5 class="modal-title">Voulez-vous réellement supprimer cette fiche?</h5>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                                        <button class="btn btn-primary" (click)="deleteConsultant()" data-dismiss="modal">Confirmer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Edit consultant -->
+<div class="card" *ngIf="isEditing">
+    <h5 class="card-header">Modifier un consultant /
+        <button class="btn btn-sm btn-warning" (click)="cancelEditing()">
+        <i class="fa fa-times"></i> Annuler</button>
+    </h5>
+    <div class="card-block">
+        <form class="form-inline" #form="ngForm" (ngSubmit)="editConsultant(consultant)" style="text-align:center">
+            <div class="card-deck">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title">Contact</h5>
+                        </div>
+                        <div class="form-group">
+                            <label for="first_name">Prénom: </label>
+                            <input class="form-control" type="text" name="first_name" [(ngModel)]="consultant.first_name" [ngModelOptions]="{standalone: true}" (keyup)="changeFirst_name(first_name.value)" value="{{first_nameValue | titlecase}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Nom: </label>
+                            <input class="form-control" type="text" name="last_name" [(ngModel)]="consultant.last_name" [ngModelOptions]="{standalone: true}" (keyup)="changeLast_name(last_name.value)" value="{{last_nameValue | uppercase}}" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-deck">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title">Détails</h5>
+                        </div>
+                        <div class="form-group">
+                            <label for="type_user">Fonction au CJD: </label>
+                            <select class="form-control" name="type_user_id" [(ngModel)]="consultant.type_user_id" [ngModelOptions]="{standalone: true}" required>
+                                <option *ngFor="let type_user of type_users" [value]="type_user.id">{{type_user.type}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-sm btn-primary" type="submit" [disabled]="!form.form.valid">
+                <i class="fa fa-save"></i> Enregistrer</button>
+        </form>
+    </div>
+</div>
+
+<!-- Create consultant -->
+<div class="card" *ngIf="!isEditing && isAdding">
+    <h5 class="card-header">Ajouter un consultant /
+        <button class="btn btn-sm btn-warning" (click)="cancelAdding()">
+        <i class="fa fa-times"></i> Annuler</button>
+    </h5>
+    <div class="card-block">
+        <form class="form-inline" [formGroup]="addConsultantForm" (ngSubmit)="addConsultant()" style="text-align:center">
+            <div class="card-deck">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title">Contact</h5>
+                        </div>
+                        <div class="form-group">
+                            <label for="first_name">Prénom: </label>
+                            <input class="form-control" type="text" name="first_name" formControlName="first_name" (keyup)="changeFirst_name(first_name.value)" value="{{first_nameValue | titlecase}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Nom: </label>
+                            <input class="form-control" type="text" name="last_name" formControlName="last_name" (keyup)="changeLast_name(last_name.value)" value="{{last_nameValue | uppercase}}" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-deck">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h5 class="card-title">Participation</h5>
+                        </div>
+                        <div class="form-group">
+                            <label for="points">Points: </label>
+                            <input class="form-control" type="number" min="0" name="points" formControlName="points" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- [disabled]="!addConsultantForm.valid" -->
+            <button class="btn btn-primary" type="submit">
+            <i class="fa fa-floppy-o"></i> Valider</button>
+        </form>
+    </div>
+</div>

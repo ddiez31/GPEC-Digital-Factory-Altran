@@ -1,14 +1,14 @@
 @import '../variables';
 .nav-logo {
-    height: 10vh;
-    background-image: url("/assets/images/headband_cjd.png");
+    height: 5vh;
+    background-image: url("/assets/images/logo_Altran.svg");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: contain;
 }
 
 nav {
-    background-color: $cjd_darkblue;
+    background-color: $altran_darkblue;
 }
 
 .navbar {

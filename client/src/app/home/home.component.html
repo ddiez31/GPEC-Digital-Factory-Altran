@@ -1,38 +1,37 @@
 <app-toast [message]="toast.message"></app-toast>
 
 <div class="card" *ngIf="!auth.loggedIn">
-  <h4 class="card-header">S'identifier</h4>
-  <div class="card-block">
-    <form [formGroup]="loginForm" (ngSubmit)="login()">
-      <div class="input-group" [ngClass]="setClassEmail()">
-        <span class="input-group-addon">
-          <i class="fa fa-at"></i>
+    <h4 class="card-header">S'identifier</h4>
+    <div class="card-block">
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <div class="input-group" [ngClass]="setClassSurname()">
+                <span class="input-group-addon">
+          <i class="fa fa-id-badge"></i>
         </span>
-        <input class="form-control" type="email" name="email" formControlName="email" placeholder="Email" (keyup)="changeEmail(email.value)"
-          value="{{emailValue | lowercase}}" autofocus>
-      </div>
-      <div class="input-group" [ngClass]="setClassPassword()">
-        <span class="input-group-addon">
+                <input class="form-control" type="text" name="surname" formControlName="surname" placeholder="Identifiant" autofocus>
+            </div>
+            <div class="input-group" [ngClass]="setClassPassword()">
+                <span class="input-group-addon">
           <i class="fa fa-key"></i>
         </span>
-        <input class="form-control" type="password" name="password" formControlName="password" placeholder="Mot de passe">
-      </div>
-      <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid">
-        <i class="fa fa-sign-in"></i> Connexion</button>
-    </form>
-  </div>
+                <input class="form-control" type="password" name="password" formControlName="password" placeholder="Mot de passe">
+            </div>
+            <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid">
+        <i class="fa fa-sign-in-alt"></i> Connexion</button>
+        </form>
+    </div>
 </div>
 
 <div class="card" *ngIf="auth.loggedIn && auth.isAdmin">
-  <h4 class="card-header">Accueil</h4>
-  <div class="card-block">
-    <p>Vous êtes connecté en Administrateur</p>
-  </div>
+    <h4 class="card-header">Accueil</h4>
+    <div class="card-block">
+        <p>Vous êtes connecté en Administrateur</p>
+    </div>
 </div>
 
 <div class="card" *ngIf="auth.loggedIn && !auth.isAdmin">
-  <h4 class="card-header">Accueil</h4>
-  <div class="card-block">
-    <p>Vous êtes connecté en tant que membre. Veuillez vous identifier comme Administrateur pour accéder aux informations.</p>
-  </div>
+    <h4 class="card-header">Accueil</h4>
+    <div class="card-block">
+        <p>Vous êtes connecté en tant que consultant. Veuillez vous identifier comme Administrateur pour accéder aux informations.</p>
+    </div>
 </div>

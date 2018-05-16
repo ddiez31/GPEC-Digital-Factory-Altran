@@ -1,0 +1,120 @@
+<app-loading [condition]="isLoading"></app-loading>
+
+<app-toast [message]="toast.message"></app-toast>
+
+<!-- List of skills -->
+<div class="card" *ngIf="!isLoading && !isEditing && !isAdding">
+    <h5 class="card-header">Liste des compétences ({{skills.length}}) /
+        <button class="btn btn-sm btn-success" (click)="enableAdding()">
+        <i class="fa fa-plus"></i> Ajouter</button>
+        <input class="form-control mr-sm-2" type="text" [(ngModel)]="term" placeholder="Rechercher" aria-label="Rechercher">
+    </h5>
+    <div class="card-block">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-default">
+                <tr>
+                    <th>Nom</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="skills.length === 0">
+                <tr>
+                    <td colspan="12">Il n'y a aucune compétence enregistrée. Veuillez créer une nouvelle fiche.</td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="!isEditing">
+                <tr *ngFor="let skill of skills | filter : term">
+                    <td>{{skill.name}}</td>
+                    <td>{{skill.Type_skill.type}}</td>
+                    <td class="td-btn">
+                        <button class="btn btn-sm btn-warning" (click)="enableEditing(skill)" title="Modifier">
+                        <i class="fa fa-edit"></i>
+                        </button>
+                    </td>
+                    <td class="td-btn">
+                        <button class="btn btn-sm btn-danger" (click)="enableDeleting(skill)" title="Supprimer" data-toggle="modal" data-target="#confirmDelete">
+                        <i class="fa fa-trash"></i>
+                        </button>
+                        <div class="modal fade" id="confirmDelete" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button class="close" data-dismiss="modal">
+                                        <i class="fa fa-times"></i>
+                                        </button>
+                                        <h5 class="modal-title">Voulez-vous réellement supprimer cette fiche?</h5>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                                        <button class="btn btn-primary" (click)="deleteSkill()" data-dismiss="modal">Confirmer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Edit skill -->
+<div class="card" *ngIf="isEditing">
+    <h5 class="card-header">Modifier une compétence /
+        <button class="btn btn-sm btn-warning" (click)="cancelEditing()">
+        <i class="fa fa-times"></i> Annuler</button>
+    </h5>
+    <div class="card-block">
+        <form class="form-inline" #form="ngForm" (ngSubmit)="editSkill(skill)" style="text-align:center">
+            <div class="card-deck">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="name">Nom: </label>
+                            <input class="form-control" type="text" name="name" [(ngModel)]="skill.name" [ngModelOptions]="{standalone: true}" (keyup)="changeName(name.value)" value="{{nameValue | titlecase}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="type_skill">Type: </label>
+                            <select class="form-control" name="type_skill_id" [(ngModel)]="skill.type_skill_id" [ngModelOptions]="{standalone: true}" required>
+                                <option *ngFor="let type_skill of type_skills" [value]="type_skill.id">{{type_skill.type}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-sm btn-primary" type="submit" [disabled]="!form.form.valid">
+                <i class="fa fa-save"></i> Enregistrer</button>
+        </form>
+    </div>
+</div>
+
+<!-- Create skill -->
+<div class="card" *ngIf="!isEditing && isAdding">
+    <h5 class="card-header">Ajouter une compétence /
+        <button class="btn btn-sm btn-warning" (click)="cancelAdding()">
+        <i class="fa fa-times"></i> Annuler</button>
+    </h5>
+    <div class="card-block">
+        <form class="form-inline" [formGroup]="addSkillForm" (ngSubmit)="addSkill()" style="text-align:center">
+            <div class="card-deck">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="name">Nom: </label>
+                            <input class="form-control" type="text" name="name" formControlName="name" (keyup)="changeName(name.value)" value="{{nameValue | titlecase}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="type_skill">Type: </label>
+                            <select [(ngModel)]="type_skill" class="form-control" name="type_skill_id" formControlName="type_skill_id" required>
+                                <option *ngFor="let type_skill of type_skills" [value]="type_skill.id">{{type_skill.type}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- [disabled]="!addSkillForm.valid" -->
+            <button class="btn btn-primary" type="submit">
+            <i class="fa fa-floppy-o"></i> Valider</button>
+        </form>
+    </div>
+</div>

@@ -4,17 +4,17 @@
         <a routerLink="/" class="nav-item nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
             <i class="fa fa-home"></i> Accueil
         </a>
-        <a routerLink="/users" class="nav-item nav-link" routerLinkActive="active" *ngIf="auth.isAdmin">
-            <i class="fa fa-users"></i> Membres
+        <a routerLink="/skills" class="nav-item nav-link" routerLinkActive="active" *ngIf="auth.isAdmin">
+            <i class="fa fa-star"></i> Compétences
         </a>
-        <a routerLink="/events" class="nav-item nav-link" routerLinkActive="active" *ngIf="auth.isAdmin">
-            <i class="fa fa-calendar"></i> Evènements
+        <a routerLink="/consultants" class="nav-item nav-link" routerLinkActive="active" *ngIf="auth.isAdmin">
+            <i class="fa fa-users"></i> Consultants
         </a>
-        <a routerLink="/monday_mail" class="nav-item nav-link" routerLinkActive="active" *ngIf="auth.isAdmin">
-            <i class="fa fa-envelope"></i> Mail du Lundi
+        <a routerLink="/projects" class="nav-item nav-link" routerLinkActive="active" *ngIf="auth.isAdmin">
+            <i class="fa fa-project-diagram"></i> Projets
         </a>
         <a routerLink="/logout" class="nav-item nav-link" routerLinkActive="active" *ngIf="auth.loggedIn">
-            <i class="fa fa-sign-out"></i> Logout
+            <i class="fa fa-sign-out-alt"></i> Logout
         </a>
     </div>
 </nav>
