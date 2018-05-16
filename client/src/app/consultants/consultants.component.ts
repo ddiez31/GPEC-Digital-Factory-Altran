@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {Http} from '@angular/http';
 import {FormGroup, FormControl, Validators, FormBuilder} from '@angular/forms';
 import {ConsultantService} from '../services/consultant.service';
+import {LevelService} from '../services/level.service';
+import {SkillService} from '../services/skill.service';
+
 import {ToastComponent} from '../shared/toast/toast.component';
 import {LowerCasePipe} from '@angular/common';
 import {UpperCasePipe} from '@angular/common';
@@ -19,14 +22,13 @@ export class ConsultantsComponent implements OnInit {
     this.last_nameValue = last_nameValue;
   };
 
-  // user = {};
-  // users = [];
-  // type_user = {};
-  // type_users = [];
   consultant = {};
   consultants = [];
-  // contribution = {};
-  // contributions = [];
+  skill = {};
+  skills = [];
+  level = {};
+  levels = [];
+
   isLoading = true;
   isEditing = false;
   isAdding = false;
@@ -37,25 +39,26 @@ export class ConsultantsComponent implements OnInit {
   first_name = new FormControl('', Validators.required);
   last_name = new FormControl('', Validators.required);
 
-  // type_user_id;
+  skill_id;
+  level_id;
 
   public term: any;
-  
-  constructor(private consultantService : ConsultantService, private formBuilder : FormBuilder, private http : Http, public toast : ToastComponent) {}
+
+  constructor(private consultantService : ConsultantService, private levelService : LevelService, private skillService : SkillService, private formBuilder : FormBuilder, private http : Http, public toast : ToastComponent) {}
 
   ngOnInit() {
     this.getConsultants();
-    // this.getTypeUsers();
-    // this.getContributions();
+    this.getSkills();
+    this.getLevels();
 
      // Declare data form to check
     this.addConsultantForm = this
       .formBuilder
       .group({
         first_name: this.first_name,
-        last_name: this.last_name
-
-        // type_user_id: this.type_user_id
+        last_name: this.last_name,
+        skill_id: this.skill_id,
+        level_id: this.level_id
       });
   }
 
@@ -66,13 +69,19 @@ export class ConsultantsComponent implements OnInit {
       .subscribe(data => this.consultants = data, error => console.log(error), () => this.isLoading = false);
   }
 
+  getLevels() {
+    this
+      .levelService
+      .getLevels()
+      .subscribe(data => this.levels = data, error => console.log(error), () => this.isLoading = false);
+  }
 
-  // getContributions() {
-  //   this
-  //     .contributionService
-  //     .getContributions()
-  //     .subscribe(data => this.contributions = data, error => console.log(error), () => this.isLoading = false);
-  // }
+  getSkills() {
+    this
+      .skillService
+      .getSkills()
+      .subscribe(data => this.skills = data, error => console.log(error), () => this.isLoading = false);
+  }
 
   addConsultant() {
     this
@@ -118,7 +127,6 @@ export class ConsultantsComponent implements OnInit {
   enableEditing(consultant) {
     this.isEditing = true;
     this.consultant = consultant;
-    // this.isChecked = true;
   }
 
   cancelEditing() {

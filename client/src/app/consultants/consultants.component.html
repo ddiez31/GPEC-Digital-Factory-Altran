@@ -15,7 +15,6 @@
                 <tr>
                     <th>Prénom</th>
                     <th>Nom</th>
-                    <!-- <th>Rôle</th> -->
                 </tr>
             </thead>
             <tbody *ngIf="consultants.length === 0">
@@ -27,7 +26,6 @@
                 <tr *ngFor="let consultant of consultants | filter : term">
                     <td>{{consultant.first_name}}</td>
                     <td>{{consultant.last_name}}</td>
-                    <!-- <td>{{consultant.Type_user.type}}</td> -->
                     <td class="td-btn">
                         <button class="btn btn-sm btn-warning" (click)="enableEditing(consultant)" title="Modifier">
                         <i class="fa fa-edit"></i>
@@ -72,7 +70,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-header">
-                            <h5 class="card-title">Contact</h5>
+                            <h5 class="card-title">Identité</h5>
                         </div>
                         <div class="form-group">
                             <label for="first_name">Prénom: </label>
@@ -89,12 +87,18 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-header">
-                            <h5 class="card-title">Détails</h5>
+                            <h5 class="card-title">Statistiques</h5>
                         </div>
                         <div class="form-group">
-                            <label for="type_user">Fonction au CJD: </label>
-                            <select class="form-control" name="type_user_id" [(ngModel)]="consultant.type_user_id" [ngModelOptions]="{standalone: true}" required>
-                                <option *ngFor="let type_user of type_users" [value]="type_user.id">{{type_user.type}}</option>
+                            <label for="skill">Compétence: </label>
+                            <select [(ngModel)]="consultant.skill_id" class="form-control" name="skill_id" [ngModelOptions]="{standalone: true}" required>
+                                <option *ngFor="let skill of skills" [value]="skill.id">{{skill.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="level">Niveau: </label>
+                            <select [(ngModel)]="consultant.level_id" class="form-control" name="level_id" [ngModelOptions]="{standalone: true}" required>
+                                <option *ngFor="let level of levels" [value]="level.id">{{level.name}}</option>
                             </select>
                         </div>
                     </div>
@@ -118,7 +122,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-header">
-                            <h5 class="card-title">Contact</h5>
+                            <h5 class="card-title">Statistiques</h5>
                         </div>
                         <div class="form-group">
                             <label for="first_name">Prénom: </label>
@@ -135,16 +139,23 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-header">
-                            <h5 class="card-title">Participation</h5>
+                            <h5 class="card-title">Statistiques</h5>
                         </div>
                         <div class="form-group">
-                            <label for="points">Points: </label>
-                            <input class="form-control" type="number" min="0" name="points" formControlName="points" required>
+                            <label for="skill">Compétence: </label>
+                            <select [(ngModel)]="skill" class="form-control" name="skill_id" formControlName="skill_id" required>
+                                <option *ngFor="let skill of skills" [value]="skill.id">{{skill.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="level">Niveau: </label>
+                            <select [(ngModel)]="level" class="form-control" name="level_id" formControlName="level_id" required>
+                                <option *ngFor="let level of levels" [value]="level.id">{{level.name}}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- [disabled]="!addConsultantForm.valid" -->
             <button class="btn btn-primary" type="submit">
             <i class="fa fa-floppy-o"></i> Valider</button>
         </form>

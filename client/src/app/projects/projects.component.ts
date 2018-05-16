@@ -121,7 +121,6 @@ export class ProjectsComponent implements OnInit {
   enableEditing(project) {
     this.isEditing = true;
     this.project = project;
-    // this.isChecked = true;
   }
 
   cancelEditing() {
